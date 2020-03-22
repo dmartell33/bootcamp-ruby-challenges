@@ -1,0 +1,57 @@
+class Image
+
+  def initialize (image)
+    @image = image
+  end
+
+  def find_ones
+    ones = []
+      @image.each_with_index do |row, i|
+        row.each_with_index do |item, j|
+          if item == 1
+            ones << [i, j]
+        end
+     end
+  end
+    ones
+  end
+
+   def blur_image
+     ones = find_ones
+       @image.each_with_index do |row, i|
+         row.each_with_index do |item, j|
+           ones.each do |found_i, found_j|
+           if i == found_i && j == found_j
+              @image[i -1][j] = 1 unless j == 0
+              @image[i +1][j] = 1 unless j >= 3 
+              @image[i][j-1] = 1 unless j == 0
+              @image[i][j +1] = 1 unless j >= 3 
+           end
+        end
+      end
+    end
+  end
+
+
+ def output_image
+   @image.each do |data|
+     puts data.join
+     end
+   end
+ end
+
+
+image = Image.new([
+[0, 0, 0, 0],
+[0, 1, 0, 0],
+[0, 0, 0, 1],
+[0, 0, 0, 0]
+])
+
+image.output_image
+
+puts
+
+image.blur_image
+
+image.output_image
